@@ -4,6 +4,17 @@
       <div class="closeNewNote"></div>
       <div class="pseudotext" (click)="addnoteEditor()">Add new note...</div>
       <div class="addnoteContainer shiftnoteEditor">
+        <div
+          class="errorUserSelect"
+          *ngIf="!currentUser && showUserError; else emptyField"
+        >
+          User not selected!
+        </div>
+        <ng-template #emptyField>
+          <div class="errorUserSelect" *ngIf="emptyFields">
+            Fields are empty
+          </div>
+        </ng-template>
         <div class="title">
           <input type="text" placeholder="Title" #title />
         </div>

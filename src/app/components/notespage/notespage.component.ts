@@ -36,6 +36,7 @@ export class NotespageComponent implements OnInit, AfterViewInit {
   totalPins: any = 0;
   pinIndex: any[] = [];
   displayEditor: boolean = false;
+  emptyFields: boolean = false;
   ngOnInit(): void {
     this.allNotes = [];
     if (this.currentUser != '') {
@@ -205,10 +206,15 @@ export class NotespageComponent implements OnInit, AfterViewInit {
           });
       });
   }
-
+  showUserError: boolean = false;
   addData(title: any, tagline: any) {
+    if (this.currentUser === '') this.showUserError = true;
+    else this.showUserError = false;
     if (title === '' && tagline === '' && this.noteText === '') {
+      if (this.showUserError == false) this.emptyFields = true;
     } else {
+      this.emptyFields = false;
+      this.showUserError = false;
       this.allNotes.push({
         title: title,
         tagline: tagline,
