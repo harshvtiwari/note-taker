@@ -1,0 +1,61 @@
+.newnote {
+  position: relative;
+  width: 100%;
+  margin: 0 0 20px;
+  overflow: hidden;
+  border: 1px solid #5f6368;
+  break-inside: avoid;
+  border-radius: 10px;
+  &:hover {
+    border-color: #a0a6ae;
+  }
+  .setting {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    .pin {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      &:hover {
+        background: #fafafa10;
+        svg {
+          fill: #fafafa;
+        }
+      }
+    }
+
+    .bin,
+    .edit {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      &:hover {
+        background: #fafafa10;
+        svg {
+          stroke: #fafafa;
+        }
+      }
+    }
+  }
+  .note-inner {
+    color: #fafafa;
+    padding: 10px;
+    word-break: break-all;
+  }
+}
+
+.pinned {
+  background: #fafafa10 !important;
+  svg {
+    fill: #fafafa !important;
+  }
+}

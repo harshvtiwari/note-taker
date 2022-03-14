@@ -1,0 +1,25 @@
+<div class="users">
+  <div class="searchuser">
+    <input type="text" placeholder="Search Users" #searchuser />
+  </div>
+  <div class="userlist">
+    <ul>
+      <li
+        (click)="setCurrentUser(user, $event.target, i)"
+        *ngFor="let user of allUsersList; index as i"
+        [ngClass]="{ active: selectedIndex == i }"
+      >
+        {{ user }}
+      </li>
+    </ul>
+  </div>
+  <div class="adduser">
+    <div class="title">
+      <span>Add new user</span>
+    </div>
+    <div class="adduserfield">
+      <input type="text" placeholder="New user" #newUser />
+      <button (click)="addUser(newUser.value)">Add</button>
+    </div>
+  </div>
+</div>

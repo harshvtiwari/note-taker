@@ -1,0 +1,14 @@
+.main-container {
+  width: 100vw;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  .sub-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    app-notespage {
+      flex-grow: 1;
+    }
+  }
+}

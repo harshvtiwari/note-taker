@@ -1,0 +1,237 @@
+<div class="notespage">
+  <div class="row1">
+    <div class="addnote">
+      <div class="closeNewNote"></div>
+      <div class="pseudotext" (click)="addnoteEditor()">Add new note...</div>
+      <div class="addnoteContainer shiftnoteEditor">
+        <div class="title">
+          <input type="text" placeholder="Title" #title />
+        </div>
+        <div class="tagline">
+          <input type="text" placeholder="Tagline" #tagline />
+        </div>
+        <div
+          class="notebody"
+          contenteditable="true"
+          placeholder="Write your note here"
+          aria-label="Write your note"
+          aria-multiline="true"
+          role="textbox"
+          (blur)="getNoteText(noteBox.innerText)"
+          [innerText]="noteText"
+          #noteBox
+        ></div>
+        <div class="addnotefooter">
+          <div class="colortheme">
+            <svg
+              id="colorpalette"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 64 64"
+              stroke-width="4"
+              stroke="#fafafa80"
+              fill="none"
+              class="duration-300 transform transition-all"
+              style="width: 30px; height: 30px"
+            >
+              <path
+                d="M34.07 50.93s19.79-6.55 11.61-24.33c0 0-4.8-11.46-19.31-13.27S8.3 20.8 8.3 20.8 1.81 33.68 13.1 35c1.62.19 5-.56 6.4 1.33s.29 4.2 0 8.8c-.16 2.56 1.77 8.74 14.57 5.8z"
+                stroke-linecap="round"
+              ></path>
+              <circle
+                cx="17.2"
+                cy="24.01"
+                r="3.59"
+                stroke-linecap="round"
+              ></circle>
+              <circle
+                cx="38.02"
+                cy="28.02"
+                r="2.43"
+                stroke-linecap="round"
+              ></circle>
+              <circle
+                cx="38.02"
+                cy="39.04"
+                r="2.43"
+                stroke-linecap="round"
+              ></circle>
+              <circle
+                cx="28.14"
+                cy="44.38"
+                r="2.43"
+                stroke-linecap="round"
+              ></circle>
+              <path
+                d="M54 12.62c-.69 3.31-2.07 10.9-2.18 27a.41.41 0 00.41.41h4.91a.41.41 0 00.41-.42c-.1-2.82-.74-18.12-2.75-27a.41.41 0 00-.8.01zM57.48 43.8c0 1.53-1.92 7.37-2.78 7.37s-2.78-5.84-2.78-7.37a2.78 2.78 0 115.56 0z"
+                stroke-linecap="round"
+              ></path>
+            </svg>
+            <div class="colors">
+              <ul>
+                <li
+                  (click)="setBG('none', $event.target)"
+                  [ngClass]="{ paletteActive: noteBGcolor == 'none' }"
+                ></li>
+                <li
+                  (click)="setBG('#e457d680', $event.target)"
+                  [ngClass]="{ paletteActive: noteBGcolor == '#e457d680' }"
+                ></li>
+                <li
+                  (click)="setBG('#e4d15780', $event.target)"
+                  [ngClass]="{ paletteActive: noteBGcolor == '#e4d15780' }"
+                ></li>
+                <li
+                  (click)="setBG('#57e4d480', $event.target)"
+                  [ngClass]="{ paletteActive: noteBGcolor == '#57e4d480' }"
+                ></li>
+                <li
+                  (click)="setBG('#57e4a280', $event.target)"
+                  [ngClass]="{ paletteActive: noteBGcolor == '#57e4a280' }"
+                ></li>
+                <li
+                  (click)="setBG('#e4575780', $event.target)"
+                  [ngClass]="{ paletteActive: noteBGcolor == '#e4575780' }"
+                ></li>
+              </ul>
+            </div>
+          </div>
+          <div class="btn">
+            <button class="discardnotebtn" (click)="discard()">Discard</button>
+            <button
+              class="addnotebtn"
+              (click)="addData(title.value, tagline.value)"
+            >
+              {{ onNewAdd }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="askUser" *ngIf="!currentUser">{{ askUser }}</div>
+    </div>
+  </div>
+  <div class="row2">
+    <div class="pinnedNotes">
+      <small *ngIf="totalPins">Pinned notes</small>
+      <ng-container *ngFor="let eachNote of allPinnnedNotes; index as i">
+        <app-singlenote
+          [title]="eachNote.title"
+          [tagline]="eachNote.tagline"
+          [noteText]="eachNote.noteText"
+          [bgcolor]="eachNote.bgcolor"
+          [pinnedNote]="true"
+          [noteID]="'pinned_' + i"
+          (pinEvent)="unpinnedNote(i, $event)"
+          (binEvent)="delPinnedNote(i, $event)"
+          (editEvent)="editPinnedNote(i, $event)"
+        ></app-singlenote>
+      </ng-container>
+    </div>
+    <div class="notes">
+      <small *ngIf="totalPins">Other notes</small>
+      <ng-container *ngFor="let eachNote of allNotes; index as i">
+        <app-singlenote
+          [title]="eachNote.title"
+          [tagline]="eachNote.tagline"
+          [noteText]="eachNote.noteText"
+          [bgcolor]="eachNote.bgcolor"
+          [noteID]="'other_' + i"
+          (pinEvent)="pinnedNote(i, $event)"
+          (binEvent)="delNote(i, $event)"
+          (editEvent)="editNote(i, $event)"
+        ></app-singlenote>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<div class="editModal" [ngClass]="!displayEditor ? 'displayEditorModal' : ''">
+  <div class="backCover" (click)="displayEditor = false; saveChanges()"></div>
+  <div class="editnoteContainer editorContainer">
+    <div class="edittitle">
+      <input type="text" placeholder="Title" #title />
+    </div>
+    <div class="edittagline">
+      <input type="text" placeholder="Tagline" #tagline />
+    </div>
+    <div
+      class="editnotebody"
+      contenteditable="true"
+      placeholder="Write your note here"
+      aria-label="Write your note"
+      aria-multiline="true"
+      role="textbox"
+      (blur)="getEditorNoteText(editorNoteBox.innerText)"
+      [innerText]="editorNoteText"
+      #editorNoteBox
+    ></div>
+    <!-- <div class="addnotefooter">
+      <div class="colortheme">
+        <svg
+          id="colorpalette"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 64 64"
+          stroke-width="4"
+          stroke="#fafafa80"
+          fill="none"
+          class="duration-300 transform transition-all"
+          style="width: 30px; height: 30px"
+        >
+          <path
+            d="M34.07 50.93s19.79-6.55 11.61-24.33c0 0-4.8-11.46-19.31-13.27S8.3 20.8 8.3 20.8 1.81 33.68 13.1 35c1.62.19 5-.56 6.4 1.33s.29 4.2 0 8.8c-.16 2.56 1.77 8.74 14.57 5.8z"
+            stroke-linecap="round"
+          ></path>
+          <circle cx="17.2" cy="24.01" r="3.59" stroke-linecap="round"></circle>
+          <circle
+            cx="38.02"
+            cy="28.02"
+            r="2.43"
+            stroke-linecap="round"
+          ></circle>
+          <circle
+            cx="38.02"
+            cy="39.04"
+            r="2.43"
+            stroke-linecap="round"
+          ></circle>
+          <circle
+            cx="28.14"
+            cy="44.38"
+            r="2.43"
+            stroke-linecap="round"
+          ></circle>
+          <path
+            d="M54 12.62c-.69 3.31-2.07 10.9-2.18 27a.41.41 0 00.41.41h4.91a.41.41 0 00.41-.42c-.1-2.82-.74-18.12-2.75-27a.41.41 0 00-.8.01zM57.48 43.8c0 1.53-1.92 7.37-2.78 7.37s-2.78-5.84-2.78-7.37a2.78 2.78 0 115.56 0z"
+            stroke-linecap="round"
+          ></path>
+        </svg>
+        <div class="colors">
+          <ul>
+            <li
+              (click)="setBG('none', $event.target)"
+              [ngClass]="{ paletteActive: noteBGcolor == 'none' }"
+            ></li>
+            <li
+              (click)="setBG('#e457d680', $event.target)"
+              [ngClass]="{ paletteActive: noteBGcolor == '#e457d680' }"
+            ></li>
+            <li
+              (click)="setBG('#e4d15780', $event.target)"
+              [ngClass]="{ paletteActive: noteBGcolor == '#e4d15780' }"
+            ></li>
+            <li
+              (click)="setBG('#57e4d480', $event.target)"
+              [ngClass]="{ paletteActive: noteBGcolor == '#57e4d480' }"
+            ></li>
+            <li
+              (click)="setBG('#57e4a280', $event.target)"
+              [ngClass]="{ paletteActive: noteBGcolor == '#57e4a280' }"
+            ></li>
+            <li
+              (click)="setBG('#e4575780', $event.target)"
+              [ngClass]="{ paletteActive: noteBGcolor == '#e4575780' }"
+            ></li>
+          </ul>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</div>

@@ -1,0 +1,57 @@
+<div class="newnote" id="{{ noteID }}">
+  <div class="setting">
+    <div class="pin" (click)="pin()" [ngClass]="pinnedNote ? 'pinned' : ''">
+      <svg
+        width="20px"
+        height="20px"
+        viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="#fafafa80"
+        class="bi bi-pin"
+      >
+        <path
+          d="M4.146.146A.5.5 0 0 1 4.5 0h7a.5.5 0 0 1 .5.5c0 .68-.342 1.174-.646 1.479-.126.125-.25.224-.354.298v4.431l.078.048c.203.127.476.314.751.555C12.36 7.775 13 8.527 13 9.5a.5.5 0 0 1-.5.5h-4v4.5c0 .276-.224 1.5-.5 1.5s-.5-1.224-.5-1.5V10h-4a.5.5 0 0 1-.5-.5c0-.973.64-1.725 1.17-2.189A5.921 5.921 0 0 1 5 6.708V2.277a2.77 2.77 0 0 1-.354-.298C4.342 1.674 4 1.179 4 .5a.5.5 0 0 1 .146-.354zm1.58 1.408-.002-.001.002.001zm-.002-.001.002.001A.5.5 0 0 1 6 2v5a.5.5 0 0 1-.276.447h-.002l-.012.007-.054.03a4.922 4.922 0 0 0-.827.58c-.318.278-.585.596-.725.936h7.792c-.14-.34-.407-.658-.725-.936a4.915 4.915 0 0 0-.881-.61l-.012-.006h-.002A.5.5 0 0 1 10 7V2a.5.5 0 0 1 .295-.458 1.775 1.775 0 0 0 .351-.271c.08-.08.155-.17.214-.271H5.14c.06.1.133.191.214.271a1.78 1.78 0 0 0 .37.282z"
+        />
+      </svg>
+    </div>
+    <div class="bin" (click)="bin()">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 64 64"
+        stroke-width="4"
+        stroke="#fafafa80"
+        fill="none"
+        class="duration-300 transform transition-all"
+        style="width: 20px; height: 20px"
+      >
+        <path
+          d="M45.49 54.87h-27a1 1 0 01-1-1l-2-36h32.97l-2 36a1 1 0 01-.97 1zM51 17.86H13c-.28 0-.5-.16-.5-.35l.93-4.35a.49.49 0 01.5-.3h36.14a.49.49 0 01.5.3l.93 4.35c0 .19-.22.35-.5.35zM24 23.44v25M32 23.44v25M40 23.44v25"
+        ></path>
+        <path d="M25.73 12.86V7.57a1 1 0 011-1h10.54a1 1 0 011 1v5.29"></path>
+      </svg>
+    </div>
+    <div class="edit" (click)="edit()">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 64 64"
+        stroke-width="4"
+        stroke="#fafafa80"
+        fill="none"
+        class="duration-300 transform transition-all"
+        style="width: 20px; height: 20px"
+      >
+        <path
+          d="M55.5 23.9v29.6a2 2 0 01-2 2h-43a2 2 0 01-2-2v-43a2 2 0 012-2h31.14"
+        ></path>
+        <path
+          d="M19.48 38.77l-.64 5.59a.84.84 0 00.92.93l5.56-.64a.87.87 0 00.5-.24L54.9 15.22a1.66 1.66 0 000-2.35L51.15 9.1a1.67 1.67 0 00-2.36 0L19.71 38.28a.83.83 0 00-.23.49zM44.87 13.04l6.03 6.2"
+        ></path>
+      </svg>
+    </div>
+  </div>
+  <div class="note-inner">
+    <p>{{ title }}</p>
+    <p>{{ tagline }}</p>
+    <p>{{ noteText }}</p>
+  </div>
+</div>
